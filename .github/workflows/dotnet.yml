@@ -25,5 +25,5 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag bibhuti123/dotnet:$(date +%s)
     - name: Docker push
-      run: docker push ${{secrets.DOCKER_USER}}/dotnet
+      run: docker push bibhuti123/dotnet
       
