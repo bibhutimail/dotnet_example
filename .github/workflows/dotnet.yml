@@ -32,12 +32,6 @@ jobs:
       run: |
         COMMIT_COUNT=$(echo ${{ steps.commit_count.outputs.COMMIT_COUNT }})
         docker build . --file Dockerfile --tag bibhuti123/dotnet:$COMMIT_COUNT
-        
-    - name: Tag the Docker image with latest
-      run: |
-        docker tag bibhuti123/dotnet:$VERSION bibhuti123/dotnet:latest
-      env:
-        VERSION: ${{ steps.env.outputs.VERSION }}
           
     - name: Docker push
       run: |
