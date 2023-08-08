@@ -34,12 +34,12 @@ jobs:
       run: |
         COMMIT_COUNT=$(echo ${{ steps.commit_count.outputs.COMMIT_COUNT }})
         CURRENT_DATETIME=$(echo ${{ steps.current_datetime.outputs.CURRENT_DATETIME }})
-        TAG=$COMMIT_COUNT-$CURRENT_DATETIME
+        TAG=$CURRENT_DATETIME
         docker build . --file Dockerfile --tag bibhuti123/dotnet:$TAG
           
     - name: Docker push to hub.docker
       run: |
         COMMIT_COUNT=$(echo ${{ steps.commit_count.outputs.COMMIT_COUNT }})
         CURRENT_DATETIME=$(echo ${{ steps.current_datetime.outputs.CURRENT_DATETIME }})
-        TAG=$COMMIT_COUNT-$CURRENT_DATETIME
+        TAG=$CURRENT_DATETIME
         docker push bibhuti123/dotnet:$TAG
