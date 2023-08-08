@@ -29,6 +29,7 @@ jobs:
           
     - name: Build the Docker image
       run: |
+        echo $VERSION
         docker build . --file Dockerfile --tag bibhuti123/dotnet:$VERSION
       env:
         VERSION: ${{ steps.env.outputs.VERSION }}
