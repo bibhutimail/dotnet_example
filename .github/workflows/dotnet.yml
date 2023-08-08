@@ -33,7 +33,7 @@ jobs:
         COMMIT_COUNT=$(echo ${{ steps.commit_count.outputs.COMMIT_COUNT }})
         docker build . --file Dockerfile --tag bibhuti123/dotnet:$COMMIT_COUNT
           
-    - name: Docker push
+    - name: Docker push to hub.docker
       run: |
         COMMIT_COUNT=$(echo ${{ steps.commit_count.outputs.COMMIT_COUNT }})
         docker push bibhuti123/dotnet:$COMMIT_COUNT
