@@ -26,14 +26,20 @@ jobs:
       id: commit_count
       run: |
         COMMIT_COUNT=$(git rev-list --count HEAD)
-        echo "::set-output name=COMMIT_COUNT::$COMMIT_COUNT" 
+        echo "::set-output name=COMMIT_COUNT::$COMMIT_COUNT"
+        CURRENT_DATETIME=$(date +'%Y%m%d%H%M%S')
+        echo "::set-output name=CURRENT_DATETIME::$CURRENT_DATETIME"  
         
     - name: Build the Docker image
       run: |
         COMMIT_COUNT=$(echo ${{ steps.commit_count.outputs.COMMIT_COUNT }})
-        docker build . --file Dockerfile --tag bibhuti123/dotnet:$COMMIT_COUNT
+        CURRENT_DATETIME=$(echo ${{ steps.current_datetime.outputs.CURRENT_DATETIME }})
+        TAG=$COMMIT_COUNT-$CURRENT_DATETIME
+        docker build . --file Dockerfile --tag bibhuti123/dotnet:$TAG
           
     - name: Docker push to hub.docker
       run: |
         COMMIT_COUNT=$(echo ${{ steps.commit_count.outputs.COMMIT_COUNT }})
-        docker push bibhuti123/dotnet:$COMMIT_COUNT
+        CURRENT_DATETIME=$(echo ${{ steps.current_datetime.outputs.CURRENT_DATETIME }})
+        TAG=$COMMIT_COUNT-$CURRENT_DATETIME
+        docker push bibhuti123/dotnet:$TAG
