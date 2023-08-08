@@ -39,4 +39,5 @@ jobs:
       run: |
         CURRENT_DATETIME=$(echo ${{ steps.current_datetime.outputs.CURRENT_DATETIME }})
         TAG=$CURRENT_DATETIME
+        docker push bibhuti123/dotnet:latest
         docker push bibhuti123/dotnet:$TAG
