@@ -22,17 +22,16 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-    - name: Set up environment
-      id: env
+    - name: Get commit count
+      id: commit_count
       run: |
-        echo "VERSION=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
-        echo $VERSION  
+        COMMIT_COUNT=$(git rev-list --count HEAD)
+        echo "::set-output name=COMMIT_COUNT::$COMMIT_COUNT" 
+        
     - name: Build the Docker image
       run: |
-        echo $VERSION
-        docker build . --file Dockerfile --tag bibhuti123/dotnet:$VERSION
-      env:
-        VERSION: ${{ steps.env.outputs.VERSION }}
+        COMMIT_COUNT=$(echo ${{ steps.commit_count.outputs.COMMIT_COUNT }})
+        docker build . --file Dockerfile --tag bibhuti123/dotnet:$COMMIT_COUNT
         
     - name: Tag the Docker image with latest
       run: |
@@ -42,7 +41,5 @@ jobs:
           
     - name: Docker push
       run: |
-        docker push bibhuti123/dotnet:$VERSION
-        docker push bibhuti123/dotnet:latest
-      env:
-        VERSION: ${{ steps.env.outputs.VERSION }}
+        COMMIT_COUNT=$(echo ${{ steps.commit_count.outputs.COMMIT_COUNT }})
+        docker push bibhuti123/dotnet:$COMMIT_COUNT
